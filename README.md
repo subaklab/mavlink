@@ -2,36 +2,36 @@
 
 ## MAVLink ##
 
-*   Official Website: http://mavlink.org
-*   Source: [Mavlink Generator](https://github.com/mavlink/mavlink)
-*   Binaries (always up-to-date from master):
+*   공식 사이트: http://mavlink.org
+*   소스: [Mavlink Generator](https://github.com/mavlink/mavlink)
+*   바이너리 (항상 master에서 최신 버전 유지):
   * [C/C++ header-only library](https://github.com/mavlink/c_library)
-*   Mailing list: [Google Groups](http://groups.google.com/group/mavlink)
+*   메일링 리스트: [Google Groups](http://groups.google.com/group/mavlink)
 
 MAVLink -- Micro Air Vehicle Message Marshalling Library.
 
-This is a library for lightweight communication between Micro Air Vehicles (swarm) and/or ground control stations. It allows for defining messages within XML files, which then are converted into appropriate source code for different languages. These XML files are called dialects, most of which build on the *common* dialect provided in `common.xml`.
+마이크로 비행 장치(Micro Air Vehicles) 사이나 그라운드 컨트롤 스테이션 간 가벼운 통신을 위한 라이브러리다. XML 파일내에 메시지를 정의할 수 있으며 따라서 적절한 이종의 언어에서  적절한 소스코드로 변환이 가능하다. 이런 XML 파일들을 다일렉트(dialect)라 부른다. 대부분은 `common.xml`에서 제공하는 *공통* 다일렉트를 기반으로 한다.
 
-The MAVLink protocol performs byte-level serialization and so is appropriate for use with any type of radio modem.
+MAVLink 프로토콜은 byte-level 시리얼라이제이션을 수행하기에 radio modem 타입을 사용하는데 적합하다.
 
-This repository is largely Python scripts that convert XML files into language-specific libraries. There are additional Python scripts providing examples and utilities for working with MAVLink data. These scripts, as well as the generated Python code for MAVLink dialects, require Python 2.7 or greater.
+이 레파지토리는 거대한 파이썬 스크립트로 XML 파일을 언어 따른 라이브러리로 변환한다. MAVLink 데이터와 동작하는 예제와 유틸리티를 위해 추가적인 파이썬 스크립트도 있다. MAVLink 다일렉트를 위해 뿐만 아니라 이 스크립트는 파이썬 2.7 혹은 그 이상 버전을 필요로 한다.
 
-Note that there are two incompatible versions of the MAVLink protocol: v0.9 and v1.0. Most programs, including [QGroundControl](https://github.com/mavlink/qgroundcontrol), have switched over to v1.0. The v0.9 protocol is **DEPRECATED** and should only be used to maintain backwards compatibility where necessary.
+2가지 MAVLink 프로토콜은 서로 호환되지 않는다는 점을 명심하자. : v0.9와 v1.0. [QGroundControl](https://github.com/mavlink/qgroundcontrol)을 포함한 대부분 프로그램은 이미 v1.0으로 넘어갔다. v0.9 프로토콜은 필요에 따라서 하위 호환성을 위해서만 사용된다.
 
-### Requirements ###
+### 요구사항 ###
   * Python 2.7+
-    * Tkinter (if GUI functionality is desired)
+    * Tkinter (만약 GUI 기능이 필요한 경우에)
 
-### Installation ###
-  1. Clone into a user-writable directory.
-  2. Add the repository directory to your `PYTHONPATH`
-  3. Generate MAVLink parser files following the instructions in the next section *AND/OR* run included helper scripts described in the Scripts/Examples secion.
+### 설치 ###
+  1. 사용자 쓰기 가능한 디렉토리로 Clone
+  2. 레포지토리 디렉토리를 `PYTHONPATH`에 추가
+  3. MAVLink 파서 파일을 생성. 다음 섹션에 있는 *AND/OR* 명령을 따라서 실행. Scripts/Examples 섹션에 설명된 helper 스크립트 포함.
 
-### Generating Language-specific Source Files ###
+### 특정 언어별 소스 파일 생성하기 ###
 
-Language-specific files can be generated via a Python script from the command line or using a GUI. If a dialect XML file has a dependency on another XML file, they must be located in the same directory. Since most MAVLink dialects depend on the **common** messageset, it is recommend that you place your dialect with the others in `/message_definitions/v1.0/`.
+파이썬 스크립트를 커맨드 라인이나 GUI를 사용해서 특정 언어별 파일을 생성할 수 있다. 만약 다일렉트 XML 파일이 다른 XML 파일에 의존성을 가지는 경우 동일한 디렉토리에 위치해야 한다. 따라서 대부분 MAVLink 다일렉트는 **common** messageset에 의존하므로 여러분의 다일렉트를 `/message_definitions/v1.0/`에 있는 다른 것들과 함께 두는 것을 권장한다.
 
-Available languages are:
+가능한 언어 :
 
   * C
   * C#
@@ -40,13 +40,13 @@ Available languages are:
   * Lua
   * Python, version 2.7+
 
-#### From a GUI (recommended) ####
+#### GUI에서 (추천방법) ####
 
-mavgenerate.py is a header generation tool GUI written in Python. It requires Tkinter, which is only included with Python on Windows, so it will need to be installed separately on non-Windows platforms. It can be run from anywhere using Python's -m argument:
+mavgenerate.py가 GUI 헤더 생성 도구이다. Tkinter가 필요하며 이는 윈도우 설치 파이썬에만 포함되어 있다. 따라서 윈도우가 아닌 플랫폼에서는 별도로 설치가 필요하다. 파이썬의 -m 인자를 사용하는 어디에서나 실행이 가능하다:
 
     $ python -m mavgenerate
 
-#### From the command line ####
+#### 커맨드 라인에서 ####
 
 mavgen.py is a command-line interface for generating a language-specific MAVLink library. This is actually the backend used by `mavgenerate.py`. After the `mavlink` directory has been added to the Python path, it can be run by executing from the command line:
 
