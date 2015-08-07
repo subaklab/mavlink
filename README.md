@@ -48,52 +48,53 @@ mavgenerate.py가 GUI 헤더 생성 도구이다. Tkinter가 필요하며 이는
 
 #### 커맨드 라인에서 ####
 
-mavgen.py is a command-line interface for generating a language-specific MAVLink library. This is actually the backend used by `mavgenerate.py`. After the `mavlink` directory has been added to the Python path, it can be run by executing from the command line:
+mavgen.py는 커맨드 라인 인터페이스로 언어별 MAVLink 라이브러리를 생성한다. 이것은 실제로 백엔드로 `mavgenerate.py`에서 사용된다. `mavlink` 디렉토리가 파이썬 패스에 추가되고 나면 아래와 같은 커맨드 라인으로 실행할 수 있다:
 
     $ python -m pymavlink.tools.mavgen
 
-### Usage ###
+### 사용 ###
 
-Using the generated MAVLink dialect libraries varies depending on the language, with language-specific details below:
+생성된 MAVLink 다일렉트 라이브러리를 사용하면 언어에 따라서 다르다. 언어에 따른 상세내용은 아래와 같다:
 
 #### C ####
-To use MAVLink, include the *mavlink.h* header file in your project:
+MAVLink를 사용하기 위해 여러분의 프로젝트에서 *mavlink.h* 헤더 파일을 include한다.
 
     #include <mavlink.h>
 
-Do not include the individual message files. In some cases you will have to add the main folder to the include search path as well. To be safe, we recommend these flags:
+개별 message 파일을 include하지마라. 어떤 경우에는 메인 폴더를 include 검색 패스에 추가해야만 한다. 안전하게 하려면 아래와 같은 flag를 추천한다 :
 
     $ gcc -I mavlink/include -I mavlink/include/<your message set, e.g. common>
 
-The C MAVLink library utilizes a channels metaphor to allow for simultaneous processing of multiple MAVLink streams in the same program. It is therefore important to use the correct channel for each operation as all receiving and transmitting functions provided by MAVLink require a channel. If only one MAVLink stream exists, channel 0 should be used by using the `MAVLINK_COMM_0` constant.
+C MAVLink 라이브러리는 채널 메터포를 사용해서 동일 프로그램에서 여러 MAVLink stream의 동시 처리를 허용한다. 따라서 각 연산에서 올바른 채널을 사용하는 것이 중요하다. 모든 주고 받는 기능은 채널을 획득한 MAVLink에서 제공한다. 만약 하나의 MAVLink stream만 존재한다면, 채널 0은 `MAVLINK_COMM_0` 상수를 이용해서 사용된다.
 
-##### Receiving ######
-MAVLink reception is then done using `mavlink_helpers.h:mavlink_parse_char()`.
+##### 수신(Receiving) ######
+MAVLink 수신은 `mavlink_helpers.h:mavlink_parse_char()`을 이용해서 수행된다.
 
-##### Transmitting #####
-Transmitting can be done by using the `mavlink_msg_*_pack()` function, where one is defined for every message. The packed message can then be serialized with `mavlink_helpers.h:mavlink_msg_to_send_buffer()` and then writing the resultant byte array out over the appropriate serial interface.
+##### 송신(Transmitting) #####
+전송은 `mavlink_msg_*_pack()` 함수를 이용해서 수행된다. 여기서 모든 메시지에 대해서 하나가 정의된다. 패킹된 메시지는 `mavlink_helpers.h:mavlink_msg_to_send_buffer()`를 통해서 직렬화가 된다. 그런 다음 결과 바이트 배열이 적절한 시리얼 인터페이스 위에 나오게 된다.
 
-It is possible to simplify the above by writing wrappers around the transmitting/receiving code. A multi-byte writing macro can be defined, `MAVLINK_SEND_UART_BYTES()`, or a single-byte function can be defined, `comm_send_ch()`, that wrap the low-level driver for transmitting the data. If this is done, `MAVLINK_USE_CONVENIENCE_FUNCTIONS` must be defined.
+transmitting/receiving 코드를 wrapper를 작성해서 위에 것들을 단순화 시킬 수도 있다. 멀티-바이트 쓰기 매크로도 `MAVLINK_SEND_UART_BYTES()`와 같이 정의할 수 있다. 혹은 단일-바이트 함수는 `comm_send_ch()`와 같이 정의할 수 있다. 데이터를 전송하기 위해서 로우레벨 드라이버를 감쌀 수 있다. 만약 이렇게 되면 `MAVLINK_USE_CONVENIENCE_FUNCTIONS`는 반드시 정의해야만 한다.
 
 ### Scripts/Examples ###
-This MAVLink library also comes with supporting libraries and scripts for using, manipulating, and parsing MAVLink streams within the pymavlink, pymav
-link/tools, and pymavlink/examples directories.
+MAVLink 라이브러리는 여러 라이브러리와 스크립트를 지원한다. pymavlink, pymav
+link/tools, and pymavlink/examples 디렉토리들 내에서 MAVLink stream을 사용, 처리 그리고 파싱할 수 있다.
 
-The scripts have the following requirements:
+이 스크립트는 다음과 같은 요구사항을 가진다:
   * Python 2.7+
-  * mavlink repository folder in `PYTHONPATH`
-  * Write access to the entire `mavlink` folder.
-  * Your dialect's XML file is in `message_definitions/*/`
+  * `PYTHONPATH`내에 mavlink 레파지토리 폴더
+  * 전체 `mavlink` 폴더에 쓰기 접근
+  * 여러분의 다일렉트 XML 파일은 `message_definitions/*/`에 존재
 
-Running these scripts can be done by running Python with the '-m' switch, which indicates that the given script exists on the PYTHONPATH. This is the proper way to run Python scripts that are part of a library as per PEP-328 (and the rejected PEP-3122). The following code runs `mavlogdump.py` in `/pymavlink/tools/` on the recorded MAVLink stream `test_run.mavlink` (other scripts in `/tools` and `/scripts` can be run in a similar fashion):
+
+이런 스크립트를 실행하는 것은 '-m' 스위치로 파이썬을 실행함으로써 수행할 수 있다. 이것은 주어진 스크립트가 PYTHONPATH에 존재한다는 것을 뜻한다. PEP-328에 따른 라이브러리의 부분으로 파이썬 스크립트를 실행하기 위한 적절한 방식이다.(PEP-3122는 거부되었음) 녹화된 MAVLink stream `test_run.mavlink`에서 다음과 같은 코드는 `/pymavlink/tools/`에 있는 `mavlogdump.py`을 실행한다. (`/tools`과 `/scripts`에 있는 다른 스크립트는 유사한 방식으로 실행할 수 있다.):
 
     $ python -m pymavlink.tools.mavlogdump test_run.mavlink
 
-### License ###
+### 라이센스 ###
 
-MAVLink is licensed under the terms of the Lesser General Public License (version 3) of the Free Software Foundation (LGPLv3). The C-language version of MAVLink is a header-only library, and as such compiling an application with it is considered "using the library", not a derived work. MAVLink can therefore be used without limits in any closed-source application without publishing the source code of the closed-source application.
+MAVLink는 LGPLv3(the Lesser General Public License (version 3) of the Free Software Foundation)에 해당하는 라이센스 정책을 따른다. MAVLink의 C언어 버전은 헤더만 있는 라이브러리이며 이것을 가지고 어플리케이션을 컴파일하는 것은 "라이브러리를 사용했다"로 여긴다. MAVLink는 따라서 어떠한 공개하지 않는 소스 어플리케이션에서 제한없이 사용이 가능하다. 
 
-See the *COPYING* file for more info.
+보다 자세한 내용은 *COPYING* 파일을 참조하라.
 
 ### Credits ###
 
