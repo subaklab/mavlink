@@ -10,7 +10,7 @@
 
 MAVLink -- Micro Air Vehicle Message Marshalling Library.
 
-마이크로 비행 장치(Micro Air Vehicles) 사이나 그라운드 컨트롤 스테이션 간 가벼운 통신을 위한 라이브러리다. XML 파일내에 메시지를 정의할 수 있으며 따라서 적절한 이종의 언어에서  적절한 소스코드로 변환이 가능하다. 이런 XML 파일들을 다일렉트(dialect)라 부른다. 대부분은 `common.xml`에서 제공하는 *공통* 다일렉트를 기반으로 한다.
+마이크로 비행 장치(Micro Air Vehicles)들 간에 혹은 그라운드 컨트롤 스테이션와 가벼운 통신을 위한 라이브러리다. XML 파일내에 메시지를 정의할 수 있으며 따라서 적절한 이종의 언어에서  적절한 소스코드로 변환이 가능하다. 이런 XML 파일들을 다일렉트(dialect)라 부른다. 대부분은 `common.xml`에서 제공하는 *공통* 다일렉트를 기반으로 한다.
 
 MAVLink 프로토콜은 byte-level 직렬화를 수행하기에 radio modem 타입을 사용하는데 적합하다.
 
