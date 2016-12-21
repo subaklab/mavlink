@@ -1,0 +1,22 @@
+<?xml version='1.0'?>
+<mavlink>
+	<!-- MAVLink standard messages -->
+
+    <include>common.xml</include>
+
+    <!-- use common.xml enums -->
+    <enums>
+    	 <enum name="SUBAK_CMD">
+              <description>Crash Onboard Command</description>
+              <entry value="1" name="SUBAK_CMD_CRASH_ONBOARD"></entry>
+          </enum>
+    </enums>
+    <!-- use common.xml messages -->
+    <messages>
+		<message id="150" name="SUBAK_COMMAND">
+			<description>This message encodes a crash command of onboard.</description>
+			<field type="uint8_t" name="cmd">Command of SUBAK. 1 indicates let onboard crash.
+			</field>
+		</message>
+	</messages>
+</mavlink>
