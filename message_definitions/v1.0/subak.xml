@@ -2,7 +2,7 @@
 <mavlink>
 	<!-- MAVLink standard messages -->
 
-    <include>common.xml</include>
+    <include>ardupilotmega.xml</include>
 
     <!-- use common.xml enums -->
     <enums>
@@ -13,7 +13,7 @@
     </enums>
     <!-- use common.xml messages -->
     <messages>
-		<message id="150" name="SUBAK_COMMAND">
+		<message id="199" name="SUBAK_COMMAND">
 			<description>This message encodes a crash command of onboard.</description>
 			<field type="uint8_t" name="cmd">Command of SUBAK. 1 indicates let onboard crash.
 			</field>
