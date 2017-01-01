@@ -2,7 +2,7 @@
 <mavlink>
 	<!-- MAVLink standard messages -->
 
-    <include>ardupilotmega.xml</include>
+    <include>common.xml</include>
 
     <!-- use common.xml enums -->
     <enums>
